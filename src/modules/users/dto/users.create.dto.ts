@@ -3,6 +3,7 @@ import { IsNumber, IsOptional, IsString, Length, Max, MaxLength, MinLength } fro
 
 export class CreateUserDto{
     
+
     @IsString()
     @MaxLength(8)
     @MinLength(3)

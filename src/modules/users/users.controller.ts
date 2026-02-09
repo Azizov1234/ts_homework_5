@@ -35,14 +35,13 @@ export class UsersController{
         
     // }
   @Get()
-    getAllusers(){
-        return this.usersService.getAllUsers()
-    }   
+  getAllusers(){
+    return this.usersService.getAllUsers()
+  }   
   @Post()
   async createUser(@Body() payload:CreateUserDto){
-     const data= await this.usersService.createUser(payload)
-     return data
-
+    const data= await this.usersService.createUser(payload)
+    return data
   }
   @Put("update/:id")
   async updateUser(@Param("id",ParseIntPipe) id: number,@Body() payload:CreateUserDto) {

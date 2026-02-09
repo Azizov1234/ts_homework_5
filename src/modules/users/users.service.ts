@@ -1,4 +1,4 @@
-import { Body, Injectable, Param, ParseIntPipe } from "@nestjs/common";
+import { Body, Injectable, NotFoundException, Param, ParseIntPipe } from "@nestjs/common";
 import fs from "fs"
 import { join } from "path";
 import { CreateUserDto } from "./dto/users.create.dto";
@@ -31,6 +31,9 @@ export class UsersService{
     async updateUser(id:number,payload:CreateUserDto){
         const data= await this.getAllUsers()
         const findUserIndex:number=data.findIndex((user:User)=>user.id===id)
+        if(findUserIndex===-1){
+            throw new NotFoundException("This user is not found!")
+        }
         data[findUserIndex]={...data[findUserIndex] ,...payload}
         
         fs.writeFileSync(this.filePath,JSON.stringify(data,null,4))
@@ -42,10 +45,10 @@ export class UsersService{
         const data= await this.getAllUsers()
 
         const findUser=data.findIndex((user:User)=>user.id===id)
-        console.log(findUser);
+        
         
         if(findUser==-1){
-            return "User is not found !"
+            throw new NotFoundException("This user is not found ❌")
         }
         data.splice(findUser,1)
         fs.writeFileSync(this.filePath,JSON.stringify(data,null,4))

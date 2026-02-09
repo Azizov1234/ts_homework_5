@@ -1,6 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
+import { HttpErrorFilter } from './modules/common/filters/errorHanler';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule)
@@ -8,6 +9,7 @@ async function bootstrap() {
     whitelist:true,
     transform:true
   }))
+  app.useGlobalFilters( new HttpErrorFilter())
 
   await app.listen(process.env.PORT ?? 3003);
 }
